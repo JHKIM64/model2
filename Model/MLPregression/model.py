@@ -3,7 +3,7 @@
 ## boundary condition : grid 11개
 
 # method
-## 8개 grid별 모델학습(동서남북중앙 값 시계열 변화 학습) 이후 앙상블학습 (bagging)을 통해 모델 학습
+## 8개 grid별 모델학습(동서남북중앙 값 시계열 변화 학습) 이후 앙상블학습을 통해 모델 학습
 ## data overfitting예방
 
 ## model grid target location
@@ -20,6 +20,7 @@ import tensorflow.keras as keras
 from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.metrics import r2_score
+import Plot.timeseriesplot as tsplot
 from keras.utils.vis_utils import plot_model
 from keras import layers
 
@@ -132,32 +133,17 @@ def allchemmodel(models, test_x, test_y) :
         test_x.iloc[i + 1].CO3 = pred_next[5]
     return df_PM25, df_PM10, df_SO2, df_NO2, df_CO, df_O3
 
-def plot(df, timestep, lat, lon, target, mean, std) :
-    df = pd.DataFrame(df)
-    df.columns = ["Obsv", "Pred"]
-    plt.figure(figsize=(20, 15))
-    plt.plot(df.Obsv, 'r', label='Obsv')
-    plt.plot(df.Pred, 'b', label='Pred')
-    plt.title(str(timestep) + ' hours '+target+' Prediction at ' + str(lat) + ',' + str(lon))
-    plt.xlabel('timestep')
-    PredR2Value = r2_score(df.Obsv, df.Pred)
-    font = {'color': 'black', 'size': 14}
-    plt.legend()
-    plt.text(0, -1, "Prediction R-Square=" + str(round(PredR2Value, 4)), fontdict=font)
-    plt.savefig(str(timestep) + 'h_'+target+' Pred_' + str(lat) + '_' + str(lon) + '.png')
-    plt.show()
-
 def run(lat, lon) :
     train_df, val_df, test_df , train_mean, train_std = preprocess(lat,lon)
     models, test_x, test_y = targetmodel(train_df, val_df, test_df)
 
     df_PM25, df_PM10, df_SO2, df_NO2, df_CO, df_O3 = allchemmodel(models, test_x, test_y)
 
-    plot(df_PM25,len(test_x), lat, lon,'PM25')
-    plot(df_PM10, len(test_x), lat, lon, 'PM10')
-    plot(df_SO2, len(test_x), lat, lon, 'SO2')
-    plot(df_NO2, len(test_x), lat, lon, 'NO2')
-    plot(df_CO, len(test_x), lat, lon, 'CO')
-    plot(df_O3, len(test_x), lat, lon, 'O3')
+    tsplot.actual_plot(df_PM25,len(test_x), lat, lon,'PM25',train_mean.CPM25,train_std.CPM25,'ug/m^3')
+    tsplot.actual_plot(df_PM10, len(test_x), lat, lon, 'PM10',train_mean.CPM10,train_std.CPM10,'ug/m^3')
+    tsplot.actual_plot(df_SO2, len(test_x), lat, lon, 'SO2',train_mean.CSO2,train_std.CSO2,'ug/m^3')
+    tsplot.actual_plot(df_NO2, len(test_x), lat, lon, 'NO2',train_mean.CNO2,train_std.CNO2,'ug/m^3')
+    tsplot.actual_plot(df_CO, len(test_x), lat, lon, 'CO',train_mean.CCO,train_std.CCO,'ug/m^3')
+    tsplot.actual_plot(df_O3, len(test_x), lat, lon, 'O3',train_mean.CO3,train_std.CO3,'ug/m^3')
 
 run(37.6,126.9)
