@@ -12,7 +12,6 @@ def toDF(xr,str) :
     return df
 
 def df_CNSEW(lat,lon) :
-    print(xr)
     C = xr.sel(latitude=lat, longitude=lon)
     N = xr.sel(latitude=round(lat + 0.1, 1), longitude=lon)
     S = xr.sel(latitude=round(lat - 0.1, 1), longitude=lon)
@@ -26,22 +25,6 @@ def df_CNSEW(lat,lon) :
 
     df_bd = pd.concat([df_C,df_N,df_S,df_E,df_W],axis=1).iloc[2:]
 
-    Nt_CPM25 = df_bd.CPM25.shift(-1)
-    Nt_CPM10 = df_bd.CPM10.shift(-1)
-    Nt_CSO2 = df_bd.CSO2.shift(-1)
-    Nt_CNO2 = df_bd.CNO2.shift(-1)
-    Nt_CCO = df_bd.CCO.shift(-1)
-    Nt_CO3 = df_bd.CO3.shift(-1)
-
-    df_bd['Nt_CPM25'] = Nt_CPM25
-    df_bd['Nt_CPM10'] = Nt_CPM10
-    df_bd['Nt_CSO2'] = Nt_CSO2
-    df_bd['Nt_CNO2'] = Nt_CNO2
-    df_bd['Nt_CCO'] = Nt_CCO
-    df_bd['Nt_CO3'] = Nt_CO3
-
-    df_bd = df_bd.iloc[:-1]
-    print(df_bd)
     return df_bd
 
 df_CNSEW(37.5,127.0)
