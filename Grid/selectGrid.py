@@ -4,12 +4,12 @@ import numpy as np
 import pandas as pd
 
 #19-20 년도 자료
-aerosol = xr.open_dataset("/home/intern01/jhk/Observation/EA_AQ_1920.nc")
-weather = xr.open_dataset("/home/intern01/jhk/ECMWF_Land/ECMWR_EA_CLCOND_1920.nc")
+# aerosol = xr.open_dataset("/home/intern01/jhk/Observation/EA_AQ_1920.nc")
+# weather = xr.open_dataset("/home/intern01/jhk/ECMWF_Land/ECMWR_EA_CLCOND_1920.nc")
 
 #21년 1-4월 자료
-# aerosol = xr.open_dataset("/home/intern01/jhk/Observation/EA_AQ_21_0104.nc")
-# weather = xr.open_dataset("/home/intern01/jhk/ECMWF_Land/ECMWR_EA_CLCOND_21_0104.nc")
+aerosol = xr.open_dataset("/home/intern01/jhk/Observation/EA_AQ_21_0104.nc")
+weather = xr.open_dataset("/home/intern01/jhk/ECMWF_Land/ECMWR_EA_CLCOND_21_0104.nc")
 
 
 ##boundary grid - outside of inner grid(+모양으로 둘러쌓음)
@@ -54,7 +54,7 @@ def reset_Loc(df) :
 def toxarray() :
     _,_,data = gridData()
     data.reset_index(inplace=True)
-    mask1 = (data.time < datetime.datetime(year=2021, month=1, day=1, hour=0))
+    mask1 = (data.time < datetime.datetime(year=2021, month=5, day=1, hour=0))
     data = data.loc[mask1,:]
     data.set_index(['time','latitude','longitude'],inplace=True)
     data.sort_index(inplace=True)

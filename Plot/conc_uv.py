@@ -46,7 +46,7 @@ Q = ax.quiver(X,Y,U,V,scale=30, scale_units='inches')
 
 start = timer()
 
-anim = amp.FuncAnimation(fig, update, frames=100,interval=300)
+anim = amp.FuncAnimation(fig, update, frames=2870,interval=300)
 anim.save('seoul_data.gif')
 print(timer()-start)
 plt.show()

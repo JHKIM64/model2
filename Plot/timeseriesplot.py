@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.metrics import r2_score
 
-def normalized_plot(df, timestep, lat, lon, target, mean, std) :
+def normalized_plot(df, timestep, lat, lon, target) :
     df = pd.DataFrame(df)
     df.columns = ["Obsv", "Pred"]
     plt.figure(figsize=(20, 15))
