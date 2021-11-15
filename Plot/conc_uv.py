@@ -41,7 +41,7 @@ ax.set_xticks(np.arange(box[0], box[1],0.1), crs=ccrs.PlateCarree())
 ax.set_yticks(np.arange(box[2], box[3],0.1), crs=ccrs.PlateCarree())
 ax.grid(b=True)
 
-c = ax.pcolormesh(X,Y,C,cmap="gist_ncar")
+c = ax.pcolormesh(X,Y,C)
 Q = ax.quiver(X,Y,U,V,scale=30, scale_units='inches')
 
 start = timer()

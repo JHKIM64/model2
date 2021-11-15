@@ -15,6 +15,6 @@ def run(begin, end, top, bottom, left, right) :
 
     aqxarray = df.to_xarray()
 
-    aqxarray.to_netcdf("/home/intern01/jhk/Observation/EA_AQ_21_0104.nc",mode='w')
+    aqxarray.to_netcdf("/home/intern01/jhk/Observation/EA_AQ_21_0104.nc")
 
 run('20210101', '20210430', 39, 34, 124, 133)

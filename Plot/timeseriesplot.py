@@ -14,13 +14,13 @@ def normalized_plot(df, timestep, lat, lon, target) :
     PredR2Value = r2_score(df.Obsv, df.Pred)
     font = {'color': 'black', 'size': 14}
     plt.legend()
-    plt.text(0, -1, "Prediction R-Square=" + str(round(PredR2Value, 4)), fontdict=font)
+    plt.text(0, 5, "Prediction R-Square=" + str(round(PredR2Value, 4)), fontdict=font)
     plt.savefig(str(timestep) + 'h_'+target+' Pred_' + str(lat) + '_' + str(lon) + '.png')
     plt.show()
 
 def actual_plot(df, timestep, lat, lon, target, mean, std, unit,t) :
     df = pd.DataFrame(df)
-    df = df*std + mean
+    df = df * std + mean
     df.columns = ["Obsv", "Pred"]
     plt.figure(figsize=(20, 15))
     plt.plot(df.Obsv, 'r', label='Obsv')
